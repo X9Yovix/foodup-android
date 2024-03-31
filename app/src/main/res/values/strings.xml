@@ -2,4 +2,10 @@
     <string name="app_name">FoodUp</string>
     <string name="splash_screen">Splash Screen</string>
     <string name="sign_in">Sign In</string>
+    <string name="sign_in_description">Welcome back, Sign In to continue</string>
+    <string name="icon_outline_email">icon_outline_email</string>
+    <string name="icon_outline_password">icon_outline_password</string>
+    <string name="icon_outline_login">icon_outline_login</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="password_hint">Enter your password</string>
 </resources>
