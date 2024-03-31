@@ -2,12 +2,15 @@ package tekup.android.foodup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,6 +24,7 @@ public class SignInActivity extends AppCompatActivity {
     private ImageButton imageButtonShowPassword;
     private EditText editTextPassword;
     private Button buttonSignIn;
+    private TextView textViewCreateAccountLabel;
     private boolean isPasswordVisible = false;
     private int cursorPosition = 0;
 
@@ -33,6 +37,7 @@ public class SignInActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         imageButtonShowPassword = (ImageButton) findViewById(R.id.imageButtonShowPassword);
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
+        textViewCreateAccountLabel = (TextView) findViewById(R.id.textViewCreateAccountLabel);
 
         imageButtonShowPassword.setOnClickListener(v -> {
             isPasswordVisible = !isPasswordVisible;
@@ -74,6 +79,11 @@ public class SignInActivity extends AppCompatActivity {
                     System.out.println("Throwable: " + t);
                 }
             });
+        });
+
+        textViewCreateAccountLabel.setOnClickListener(v -> {
+            Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+            startActivity(intent);
         });
     }
 }

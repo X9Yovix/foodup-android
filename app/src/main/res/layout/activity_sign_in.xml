@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_blue_bg"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".SignInActivity">
 
     <ImageView
         android:id="@+id/imageViewLogo"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/login_bg"
-        android:contentDescription="@string/sign_in_description" />
+        android:contentDescription="@string/sign_in_description"
+        android:src="@drawable/login_bg" />
 
     <TextView
         android:id="@+id/textViewSignInLabel"
@@ -23,24 +23,24 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="35dp"
         android:text="@string/sign_in_description"
-        android:textSize="18sp"
         android:textAlignment="center"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/outline_email_24_red"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="40dp"
             android:layout_marginTop="3dp"
-            android:contentDescription="@string/icon_outline_email" />
+            android:contentDescription="@string/icon_outline_email"
+            android:src="@drawable/outline_email_24_red" />
 
         <EditText
             android:id="@+id/editTextEmail"
@@ -64,11 +64,11 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/outline_password_24_red"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="40dp"
             android:layout_marginTop="12dp"
-            android:contentDescription="@string/password_hint" />
+            android:contentDescription="@string/password_hint"
+            android:src="@drawable/outline_password_24_red" />
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -92,8 +92,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="10dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/outline_visibility_24" />
         </FrameLayout>
@@ -107,10 +107,22 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
-        android:text="@string/sign_in"
-        android:textSize="14sp"
-        android:drawableEnd="@drawable/outline_login_24_white"
         android:backgroundTint="@color/primary_orange"
-        android:textColor="@color/white" />
+        android:drawableEnd="@drawable/outline_login_24_white"
+        android:text="@string/sign_in"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewCreateAccountLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="35dp"
+        android:text="@string/create_account_description"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
 
 </LinearLayout>

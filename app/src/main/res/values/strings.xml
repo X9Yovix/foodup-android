@@ -1,6 +1,8 @@
 <resources>
+    <!-- Splash -->
     <string name="app_name">FoodUp</string>
     <string name="splash_screen">Splash Screen</string>
+    <!-- SignIn -->
     <string name="sign_in">Sign In</string>
     <string name="sign_in_description">Welcome back, Sign In to continue</string>
     <string name="icon_outline_email">icon_outline_email</string>
@@ -8,4 +10,15 @@
     <string name="icon_outline_login">icon_outline_login</string>
     <string name="email_hint">Enter your email</string>
     <string name="password_hint">Enter your password</string>
+    <string name="create_account_description">Don\'t have an account yet? Create one here</string>
+    <!-- SignUp -->
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_description">Fill the form to create your account</string>
+    <string name="icon_outline_privacy_tip">icon_outline_privacy_tip</string>
+    <string name="icon_outline_info">icon_outline_info</string>
+    <string name="icon_outline_man">icon_outline_man</string>
+    <string name="icon_outline_woman">icon_outline_woman</string>
+    <string name="first_name_hint">Enter your first name</string>
+    <string name="last_name_hint">Enter your last name</string>
+    <string name="password_confirmation_hint">Enter your password confirmation</string>
 </resources>

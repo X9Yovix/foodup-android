@@ -5,6 +5,7 @@ public class User {
     private String lastName;
     private String email;
     private String gender;
+    private String role;
 
     public User(String firstName, String lastName, String email, String gender) {
         this.firstName = firstName;
@@ -45,6 +46,14 @@ public class User {
         this.gender = gender;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -52,6 +61,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }
