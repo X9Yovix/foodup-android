@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,6 +21,7 @@ import tekup.android.foodup.api.network.RequestResetPasswordResponse;
 public class ResetPasswordActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private Button buttonReset;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,27 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         buttonReset = (Button) findViewById(R.id.buttonReset);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.menu_reset_password);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.menu_reset_password) {
+                return true;
+            } else if (id == R.id.menu_login) {
+                startActivity(new Intent(ResetPasswordActivity.this, SignInActivity.class));
+                overridePendingTransition(R.anim.slide_in_left_bottom_menu, R.anim.slide_out_right_bottom_menu);
+                finish();
+                return true;
+            } else if (id == R.id.menu_create_account) {
+                startActivity(new Intent(ResetPasswordActivity.this, SignUpActivity.class));
+                overridePendingTransition(R.anim.slide_in_left_bottom_menu, R.anim.slide_out_right_bottom_menu);
+                finish();
+                return true;
+            } else {
+                return false;
+            }
+        });
 
         buttonReset.setOnClickListener(v -> {
             if (!validateForm()) {

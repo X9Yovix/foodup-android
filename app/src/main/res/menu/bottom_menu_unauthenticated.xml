@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_login"
+        android:icon="@drawable/outline_login_24_white"
+        android:title="@string/login" />
+    <item
+        android:id="@+id/menu_create_account"
+        android:icon="@drawable/outline_person_add_alt_1_24"
+        android:title="@string/create_account" />
+    <item
+        android:id="@+id/menu_reset_password"
+        android:icon="@drawable/outline_lock_reset_24"
+        android:title="@string/reset_password" />
+</menu>

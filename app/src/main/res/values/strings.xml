@@ -33,4 +33,7 @@
     <string name="update">Update</string>
     <string name="new_password_hint">Enter your new password</string>
 
+    <!-- Bottom Navigation Panel -->
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
 </resources>

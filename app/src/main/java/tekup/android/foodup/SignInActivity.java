@@ -8,8 +8,9 @@ import android.text.method.PasswordTransformationMethod;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,8 +25,7 @@ public class SignInActivity extends AppCompatActivity {
     private ImageButton imageButtonShowPassword;
     private EditText editTextPassword;
     private Button buttonSignIn;
-    private TextView textViewCreateAccountLabel;
-    private TextView textViewForgotPasswordLabel;
+    private BottomNavigationView bottomNavigationView;
     private boolean isPasswordVisible = false;
     private int cursorPosition = 0;
 
@@ -38,10 +38,31 @@ public class SignInActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         imageButtonShowPassword = (ImageButton) findViewById(R.id.imageButtonShowPassword);
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
-        textViewCreateAccountLabel = (TextView) findViewById(R.id.textViewCreateAccountLabel);
-        textViewForgotPasswordLabel = (TextView) findViewById(R.id.textViewForgotPasswordLabel);
 
-        imageButtonShowPassword.setOnClickListener(v -> {
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.menu_login);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.menu_login) {
+                return true;
+            } else if (id == R.id.menu_create_account) {
+                startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+                overridePendingTransition(R.anim.slide_in_right_bottom_menu, R.anim.slide_out_left_bottom_menu);
+                finish();
+                return true;
+            } else if (id == R.id.menu_reset_password) {
+                startActivity(new Intent(SignInActivity.this, ResetPasswordActivity.class));
+                overridePendingTransition(R.anim.slide_in_right_bottom_menu, R.anim.slide_out_left_bottom_menu);
+                finish();
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        imageButtonShowPassword.setOnClickListener(v ->
+
+        {
             isPasswordVisible = !isPasswordVisible;
             cursorPosition = editTextPassword.getSelectionStart();
             if (isPasswordVisible) {
@@ -54,7 +75,9 @@ public class SignInActivity extends AppCompatActivity {
             editTextPassword.setSelection(cursorPosition);
         });
 
-        buttonSignIn.setOnClickListener(v -> {
+        buttonSignIn.setOnClickListener(v ->
+
+        {
             if (!validateForm()) {
                 return;
             }
@@ -83,16 +106,6 @@ public class SignInActivity extends AppCompatActivity {
                     System.out.println("Throwable: " + t);
                 }
             });
-        });
-
-        textViewCreateAccountLabel.setOnClickListener(v -> {
-            Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
-            startActivity(intent);
-        });
-
-        textViewForgotPasswordLabel.setOnClickListener(v -> {
-            Intent intent = new Intent(SignInActivity.this, ResetPasswordActivity.class);
-            startActivity(intent);
         });
     }
 

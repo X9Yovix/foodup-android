@@ -3,12 +3,15 @@ package tekup.android.foodup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     private ImageButton imageButtonShowPasswordConfirmation;
     private SwitchCompat switchCompatGender;
     private Button buttonSignUp;
+    private BottomNavigationView bottomNavigationView;
     private boolean isPasswordVisible = false, isPasswordConfirmationVisible = false;
     private int cursorPositionPassword = 0, cursorPositionPasswordConfirmation = 0;
 
@@ -44,8 +48,28 @@ public class SignUpActivity extends AppCompatActivity {
         imageButtonShowPassword = (ImageButton) findViewById(R.id.imageButtonShowPassword);
         imageButtonShowPasswordConfirmation = (ImageButton) findViewById(R.id.imageButtonShowPasswordConfirmation);
         switchCompatGender = (SwitchCompat) findViewById(R.id.switchCompatGender);
-
         buttonSignUp = (Button) findViewById(R.id.buttonSignUp);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.menu_create_account);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.menu_create_account) {
+                return true;
+            } else if (id == R.id.menu_login) {
+                startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+                overridePendingTransition(R.anim.slide_in_left_bottom_menu, R.anim.slide_out_right_bottom_menu);
+                finish();
+                return true;
+            } else if (id == R.id.menu_reset_password) {
+                startActivity(new Intent(SignUpActivity.this, ResetPasswordActivity.class));
+                overridePendingTransition(R.anim.slide_in_right_bottom_menu, R.anim.slide_out_left_bottom_menu);
+                finish();
+                return true;
+            } else {
+                return false;
+            }
+        });
 
         imageButtonShowPassword.setOnClickListener(v -> {
             isPasswordVisible = !isPasswordVisible;
