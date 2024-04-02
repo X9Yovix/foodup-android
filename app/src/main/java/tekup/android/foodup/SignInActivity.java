@@ -25,6 +25,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText editTextPassword;
     private Button buttonSignIn;
     private TextView textViewCreateAccountLabel;
+    private TextView textViewForgotPasswordLabel;
     private boolean isPasswordVisible = false;
     private int cursorPosition = 0;
 
@@ -38,6 +39,7 @@ public class SignInActivity extends AppCompatActivity {
         imageButtonShowPassword = (ImageButton) findViewById(R.id.imageButtonShowPassword);
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
         textViewCreateAccountLabel = (TextView) findViewById(R.id.textViewCreateAccountLabel);
+        textViewForgotPasswordLabel = (TextView) findViewById(R.id.textViewForgotPasswordLabel);
 
         imageButtonShowPassword.setOnClickListener(v -> {
             isPasswordVisible = !isPasswordVisible;
@@ -53,12 +55,14 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         buttonSignIn.setOnClickListener(v -> {
-            AuthAPICall authAPICall = ApiClient.getApiService();
+            if (!validateForm()) {
+                return;
+            }
             LoginRequest loginRequest = new LoginRequest.Builder()
                     .setEmail(editTextEmail.getText().toString())
                     .setPassword(editTextPassword.getText().toString())
                     .build();
-
+            AuthAPICall authAPICall = ApiClient.getApiService();
             Call<LoginResponse> call = authAPICall.login(loginRequest);
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
@@ -85,5 +89,35 @@ public class SignInActivity extends AppCompatActivity {
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
+
+        textViewForgotPasswordLabel.setOnClickListener(v -> {
+            Intent intent = new Intent(SignInActivity.this, ResetPasswordActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private boolean validateForm() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            editTextEmail.setError("Email is required");
+            editTextEmail.requestFocus();
+            return false;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Enter a valid email address");
+            editTextEmail.requestFocus();
+            return false;
+        }
+
+        if (password.isEmpty()) {
+            editTextPassword.setError("Password is required");
+            editTextPassword.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 }

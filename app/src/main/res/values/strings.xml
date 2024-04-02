@@ -1,4 +1,5 @@
 <resources>
+    <string name="description">description</string>
     <!-- Splash -->
     <string name="app_name">FoodUp</string>
     <string name="splash_screen">Splash Screen</string>
@@ -11,6 +12,7 @@
     <string name="email_hint">Enter your email</string>
     <string name="password_hint">Enter your password</string>
     <string name="create_account_description">Don\'t have an account yet? Create one here</string>
+    <string name="forgot_password">Forgot password?</string>
     <!-- SignUp -->
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_description">Fill the form to create your account</string>
@@ -21,4 +23,14 @@
     <string name="first_name_hint">Enter your first name</string>
     <string name="last_name_hint">Enter your last name</string>
     <string name="password_confirmation_hint">Enter your password confirmation</string>
+    <!-- Reset Password -->
+    <string name="reset_password">Reset Password</string>
+    <string name="reset">Reset</string>
+
+    <!-- Reset Verification Code -->
+    <string name="enter_verification_code">Enter verification code</string>
+    <string name="validate">Validate</string>
+    <string name="update">Update</string>
+    <string name="new_password_hint">Enter your new password</string>
+
 </resources>

@@ -74,19 +74,15 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         buttonSignUp.setOnClickListener(v -> {
-            String password = editTextPassword.getText().toString();
-            String passwordConfirmation = editTextPasswordConfirmation.getText().toString();
-            if (!validatePasswordConfirmation(password, passwordConfirmation)) {
-                Toast.makeText(SignUpActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            if (!validateForm()) {
                 return;
             }
             String firstName = editTextFirstName.getText().toString();
             String lastName = editTextLastName.getText().toString();
             String email = editTextEmail.getText().toString();
+            String password = editTextPassword.getText().toString();
             boolean isFemale = switchCompatGender.isChecked();
             String gender = isFemale ? "Female" : "Male";
-
-            AuthAPICall authAPICall = ApiClient.getApiService();
             RegisterRequest registerRequest = new RegisterRequest.Builder()
                     .setFirstName(firstName)
                     .setLastName(lastName)
@@ -94,7 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
                     .setPassword(password)
                     .setGender(gender)
                     .build();
-            System.out.println(registerRequest);
+            AuthAPICall authAPICall = ApiClient.getApiService();
             Call<RegisterResponse> call = authAPICall.register(registerRequest);
             call.enqueue(new Callback<RegisterResponse>() {
                 @Override
@@ -118,7 +114,60 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validatePasswordConfirmation(String password, String passwordConfirmation) {
-        return password.equals(passwordConfirmation);
+    private boolean validateForm() {
+        String firstName = editTextFirstName.getText().toString().trim();
+        String lastName = editTextLastName.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+        String passwordConfirmation = editTextPasswordConfirmation.getText().toString().trim();
+
+        if (firstName.isEmpty()) {
+            editTextFirstName.setError("First name is required");
+            editTextFirstName.requestFocus();
+            return false;
+        }
+
+        if (lastName.isEmpty()) {
+            editTextLastName.setError("Last name is required");
+            editTextLastName.requestFocus();
+            return false;
+        }
+
+        if (email.isEmpty()) {
+            editTextEmail.setError("Email is required");
+            editTextEmail.requestFocus();
+            return false;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Enter a valid email address");
+            editTextEmail.requestFocus();
+            return false;
+        }
+
+        if (password.isEmpty()) {
+            editTextPassword.setError("Password is required");
+            editTextPassword.requestFocus();
+            return false;
+        }
+
+        if (passwordConfirmation.isEmpty()) {
+            editTextPasswordConfirmation.setError("Password confirmation is required");
+            editTextPasswordConfirmation.requestFocus();
+            return false;
+        }
+
+        if (!password.equals(passwordConfirmation)) {
+            editTextPasswordConfirmation.setError("Passwords do not match");
+            editTextPasswordConfirmation.requestFocus();
+            return false;
+        }
+
+        if (password.length() < 8) {
+            editTextPassword.setError("Password must be at least 8 characters");
+            editTextPassword.requestFocus();
+            return false;
+        }
+        return true;
     }
 }
