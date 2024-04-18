@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/imageViewLogo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:contentDescription="@string/description"
             android:src="@drawable/register_bg" />
 
@@ -27,8 +27,7 @@
             android:id="@+id/textViewSignInLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="35dp"
+            android:layout_marginBottom="15dp"
             android:text="@string/sign_up_description"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -251,7 +250,6 @@
             android:textColor="@color/white"
             android:textSize="14sp" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

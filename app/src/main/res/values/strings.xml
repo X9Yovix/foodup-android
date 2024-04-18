@@ -36,4 +36,8 @@
     <!-- Bottom Navigation Panel -->
     <string name="login">Login</string>
     <string name="create_account">Create Account</string>
+
+    <!-- Home page -->
+    <string name="most_popular">Most Popular</string>
+
 </resources>

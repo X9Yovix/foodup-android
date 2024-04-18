@@ -141,13 +141,13 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
                     String clipboardText = item.getText().toString().trim();
                     if (isValidCode(clipboardText)) {
                         String[] codeParts = clipboardText.split("(?!^)");
-                        if (codeParts.length == 5) {
+                        //if (codeParts.length == 5) {
                             editTextCode1.setText(codeParts[0]);
                             editTextCode2.setText(codeParts[1]);
                             editTextCode3.setText(codeParts[2]);
                             editTextCode4.setText(codeParts[3]);
                             editTextCode5.setText(codeParts[4]);
-                        }
+                        //}
                     }
                 }
             }
@@ -168,11 +168,23 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
             editTextCode3.setEnabled(false);
             editTextCode4.setEnabled(false);
             editTextCode5.setEnabled(false);
+            String emailIntent = getIntent().getStringExtra("email");
+            editTextEmail.setText(emailIntent);
 
+            Animation fadeOutAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.button_validate);
+            buttonValidate.startAnimation(fadeOutAnimation);
+            buttonValidate.setVisibility(View.GONE);
+
+            Animation slideUpFromBottomAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.otp_container);
+            containerOtpCode.startAnimation(slideUpFromBottomAnimation);
+            containerChangePassword.setVisibility(View.VISIBLE);
+            Animation slideUpAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.change_pass_container);
+            containerChangePassword.startAnimation(slideUpAnimation);
+/*
             ResetPasswordVerificationCodeRequest resetPasswordVerificationCodeRequest = new ResetPasswordVerificationCodeRequest.Builder()
                     .setOtp(otpCode)
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService();
+            AuthAPICall authAPICall = ApiClient.getApiService("");
             Call<ResetPasswordVerificationCodeResponse> call = authAPICall.verifyOtp(resetPasswordVerificationCodeRequest);
             call.enqueue(new Callback<ResetPasswordVerificationCodeResponse>() {
                 @Override
@@ -221,6 +233,7 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
                     buttonValidate.setVisibility(View.VISIBLE);
                 }
             });
+            */
         });
 
         imageButtonShowPassword.setOnClickListener(v -> {
@@ -271,7 +284,7 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
                             .setEmail(email)
                             .setPassword(password)
                             .build();
-                    AuthAPICall authAPICall = ApiClient.getApiService();
+                    AuthAPICall authAPICall = ApiClient.getApiService("");
                     Call<ResetPasswordUpdateResponse> call = authAPICall.updatePassword(resetPasswordUpdateRequest);
                     call.enqueue(new Callback<ResetPasswordUpdateResponse>() {
                         @Override

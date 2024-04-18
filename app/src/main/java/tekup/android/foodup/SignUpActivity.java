@@ -114,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                     .setPassword(password)
                     .setGender(gender)
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService();
+            AuthAPICall authAPICall = ApiClient.getApiService("");
             Call<RegisterResponse> call = authAPICall.register(registerRequest);
             call.enqueue(new Callback<RegisterResponse>() {
                 @Override

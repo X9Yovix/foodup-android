@@ -56,10 +56,14 @@ public class ResetPasswordActivity extends AppCompatActivity {
             if (!validateForm()) {
                 return;
             }
+            Intent intent = new Intent(ResetPasswordActivity.this, ResetVerificationCodeActivity.class);
+            intent.putExtra("email", editTextEmail.getText().toString());
+            startActivity(intent);
+            /*
             RequestResetPasswordRequest requestResetPasswordRequest = new RequestResetPasswordRequest.Builder()
                     .setEmail(editTextEmail.getText().toString())
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService();
+            AuthAPICall authAPICall = ApiClient.getApiService("");
             Call<RequestResetPasswordResponse> call = authAPICall.requestResetPassword(requestResetPasswordRequest);
             call.enqueue(new Callback<RequestResetPasswordResponse>() {
                 @Override
@@ -84,6 +88,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 }
             });
 
+             */
         });
     }
 

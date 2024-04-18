@@ -19,12 +19,15 @@ import tekup.android.foodup.api.ApiClient;
 import tekup.android.foodup.api.auth.AuthAPICall;
 import tekup.android.foodup.api.network.LoginRequest;
 import tekup.android.foodup.api.network.LoginResponse;
+import tekup.android.foodup.api.utility.JwtManager;
+import tekup.android.foodup.home.HomeActivity;
 
 public class SignInActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private ImageButton imageButtonShowPassword;
     private EditText editTextPassword;
     private Button buttonSignIn;
+    private Button buttonTest;
     private BottomNavigationView bottomNavigationView;
     private boolean isPasswordVisible = false;
     private int cursorPosition = 0;
@@ -38,7 +41,11 @@ public class SignInActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         imageButtonShowPassword = (ImageButton) findViewById(R.id.imageButtonShowPassword);
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
-
+        buttonTest = (Button) findViewById(R.id.buttonTest);
+        buttonTest.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        });
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.menu_login);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -60,9 +67,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        imageButtonShowPassword.setOnClickListener(v ->
-
-        {
+        imageButtonShowPassword.setOnClickListener(v -> {
             isPasswordVisible = !isPasswordVisible;
             cursorPosition = editTextPassword.getSelectionStart();
             if (isPasswordVisible) {
@@ -75,9 +80,7 @@ public class SignInActivity extends AppCompatActivity {
             editTextPassword.setSelection(cursorPosition);
         });
 
-        buttonSignIn.setOnClickListener(v ->
-
-        {
+        buttonSignIn.setOnClickListener(v -> {
             if (!validateForm()) {
                 return;
             }
@@ -85,7 +88,7 @@ public class SignInActivity extends AppCompatActivity {
                     .setEmail(editTextEmail.getText().toString())
                     .setPassword(editTextPassword.getText().toString())
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService();
+            AuthAPICall authAPICall = ApiClient.getApiService("");
             Call<LoginResponse> call = authAPICall.login(loginRequest);
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
@@ -95,6 +98,9 @@ public class SignInActivity extends AppCompatActivity {
                         if (responseObject != null) {
                             System.out.println("responseObject: " + responseObject);
                             Toast.makeText(SignInActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
+                            JwtManager.saveJwtToken(SignInActivity.this, responseObject.getToken());
+                            startActivity(new Intent(SignInActivity.this, HomeActivity.class));
+                            finish();
                         }
                     } else {
                         System.out.println("response not succ: " + response);
