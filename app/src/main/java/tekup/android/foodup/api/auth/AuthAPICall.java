@@ -16,18 +16,18 @@ import tekup.android.foodup.api.network.ResetPasswordVerificationCodeRequest;
 import tekup.android.foodup.api.network.ResetPasswordVerificationCodeResponse;
 
 public interface AuthAPICall {
-    @POST("auths/login")
+    @POST("users/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
-    @POST("auths/register")
+    @POST("users/register")
     Call<RegisterResponse> register(@Body RegisterRequest registerRequest);
 
-    @POST("auths/request-reset")
+    @POST("users/request-reset")
     Call<RequestResetPasswordResponse> requestResetPassword(@Body RequestResetPasswordRequest requestResetPasswordRequest);
 
-    @POST("auths/request-reset/verify")
+    @POST("users/request-reset/verify")
     Call<ResetPasswordVerificationCodeResponse> verifyOtp(@Body ResetPasswordVerificationCodeRequest resetPasswordVerificationCodeRequest);
 
-    @PUT("auths/request-reset/update")
+    @PUT("users/request-reset/update")
     Call<ResetPasswordUpdateResponse> updatePassword(@Body ResetPasswordUpdateRequest resetPasswordVerificationCodeRequest);
 }

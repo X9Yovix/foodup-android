@@ -95,6 +95,7 @@ public class SignInActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful()) {
                         LoginResponse responseObject = response.body();
+                        System.out.println("onResponse "+responseObject);
                         if (responseObject != null) {
                             System.out.println("responseObject: " + responseObject);
                             Toast.makeText(SignInActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();

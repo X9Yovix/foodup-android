@@ -8,7 +8,7 @@ import tekup.android.foodup.api.auth.AuthAPICall;
 
 public class ApiClient {
     //private static final String BASE_URL = "http://localhost:4000/api/";
-    private static final String BASE_URL = "http://10.0.2.2:4000/api/";
+    private static final String BASE_URL = "http://10.0.2.2:5198/api/";
     private static Retrofit retrofit;
 
 
