@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tekup.android.foodup.api.ApiClient;
-import tekup.android.foodup.api.auth.AuthAPICall;
+import tekup.android.foodup.api.interfaces.AuthAPICall;
 import tekup.android.foodup.api.network.RegisterRequest;
 import tekup.android.foodup.api.network.RegisterResponse;
 
@@ -114,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                     .setPassword(password)
                     .setGender(gender)
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService("");
+            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class,"");
             Call<RegisterResponse> call = authAPICall.register(registerRequest);
             call.enqueue(new Callback<RegisterResponse>() {
                 @Override

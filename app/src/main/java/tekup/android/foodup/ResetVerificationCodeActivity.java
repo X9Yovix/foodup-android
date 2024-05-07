@@ -22,11 +22,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tekup.android.foodup.api.ApiClient;
-import tekup.android.foodup.api.auth.AuthAPICall;
+import tekup.android.foodup.api.interfaces.AuthAPICall;
 import tekup.android.foodup.api.network.ResetPasswordUpdateRequest;
 import tekup.android.foodup.api.network.ResetPasswordUpdateResponse;
-import tekup.android.foodup.api.network.ResetPasswordVerificationCodeRequest;
-import tekup.android.foodup.api.network.ResetPasswordVerificationCodeResponse;
 
 public class ResetVerificationCodeActivity extends AppCompatActivity {
     private EditText editTextCode1;
@@ -284,7 +282,7 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
                             .setEmail(email)
                             .setPassword(password)
                             .build();
-                    AuthAPICall authAPICall = ApiClient.getApiService("");
+                    AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class,"");
                     Call<ResetPasswordUpdateResponse> call = authAPICall.updatePassword(resetPasswordUpdateRequest);
                     call.enqueue(new Callback<ResetPasswordUpdateResponse>() {
                         @Override

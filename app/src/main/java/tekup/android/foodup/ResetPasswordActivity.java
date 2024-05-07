@@ -6,17 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import tekup.android.foodup.api.ApiClient;
-import tekup.android.foodup.api.auth.AuthAPICall;
-import tekup.android.foodup.api.network.RequestResetPasswordRequest;
-import tekup.android.foodup.api.network.RequestResetPasswordResponse;
 
 public class ResetPasswordActivity extends AppCompatActivity {
     private EditText editTextEmail;
