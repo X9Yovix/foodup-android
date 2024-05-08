@@ -20,7 +20,6 @@ import tekup.android.foodup.api.interfaces.AuthAPICall;
 import tekup.android.foodup.api.network.LoginRequest;
 import tekup.android.foodup.api.network.LoginResponse;
 import tekup.android.foodup.api.utility.JwtManager;
-import tekup.android.foodup.home.HomeActivity;
 
 public class SignInActivity extends AppCompatActivity {
     private EditText editTextEmail;

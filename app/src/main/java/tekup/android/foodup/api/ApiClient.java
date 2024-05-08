@@ -12,33 +12,6 @@ public class ApiClient {
     private static final String BASE_URL = "http://10.0.2.2:5198/api/";
     private static Retrofit retrofit;
 
-
-    public static Retrofit getRetrofitInstance(String jwtToken) {
-        if (retrofit == null) {
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-            httpClient.addInterceptor(chain -> {
-                Request original = chain.request();
-                Request.Builder requestBuilder = original.newBuilder()
-                        .header("Authorization", "Bearer " + jwtToken);
-                Request request = requestBuilder.build();
-                return chain.proceed(request);
-            });
-
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(httpClient.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
-
-    /*
-    public static AuthAPICall getApiService(String jwtToken) {
-        return getRetrofitInstance(jwtToken).create(AuthAPICall.class);
-    }
-     */
-
     public static <T> T getApiService(Class<T> serviceClass, String jwtToken) {
         if (retrofit == null) {
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -58,10 +31,5 @@ public class ApiClient {
         }
         return retrofit.create(serviceClass);
     }
-    /*
-    public static CategoriesAPICall getApiCategorieService(String jwtToken) {
-        return getRetrofitInstance(jwtToken).create(CategoriesAPICall.class);
-    }
-    */
 
 }
