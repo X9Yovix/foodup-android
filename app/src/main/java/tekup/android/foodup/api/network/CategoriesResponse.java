@@ -7,7 +7,6 @@ import java.util.List;
 import tekup.android.foodup.api.model.Category;
 
 public class CategoriesResponse {
-
     @SerializedName("categories")
     private List<Category> categories;
 
