@@ -25,6 +25,8 @@ import tekup.android.foodup.api.ApiClient;
 import tekup.android.foodup.api.interfaces.AuthAPICall;
 import tekup.android.foodup.api.network.ResetPasswordUpdateRequest;
 import tekup.android.foodup.api.network.ResetPasswordUpdateResponse;
+import tekup.android.foodup.api.network.ResetPasswordVerificationCodeRequest;
+import tekup.android.foodup.api.network.ResetPasswordVerificationCodeResponse;
 
 public class ResetVerificationCodeActivity extends AppCompatActivity {
     private EditText editTextCode1;
@@ -166,6 +168,7 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
             editTextCode3.setEnabled(false);
             editTextCode4.setEnabled(false);
             editTextCode5.setEnabled(false);
+            /*
             String emailIntent = getIntent().getStringExtra("email");
             editTextEmail.setText(emailIntent);
 
@@ -178,11 +181,13 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
             containerChangePassword.setVisibility(View.VISIBLE);
             Animation slideUpAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.change_pass_container);
             containerChangePassword.startAnimation(slideUpAnimation);
-/*
+
+             */
+
             ResetPasswordVerificationCodeRequest resetPasswordVerificationCodeRequest = new ResetPasswordVerificationCodeRequest.Builder()
                     .setOtp(otpCode)
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService("");
+            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class,"");
             Call<ResetPasswordVerificationCodeResponse> call = authAPICall.verifyOtp(resetPasswordVerificationCodeRequest);
             call.enqueue(new Callback<ResetPasswordVerificationCodeResponse>() {
                 @Override
@@ -231,7 +236,7 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
                     buttonValidate.setVisibility(View.VISIBLE);
                 }
             });
-            */
+
         });
 
         imageButtonShowPassword.setOnClickListener(v -> {

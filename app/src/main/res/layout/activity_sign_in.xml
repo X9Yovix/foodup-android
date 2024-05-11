@@ -118,18 +118,6 @@
             android:text="@string/sign_in"
             android:textColor="@color/white"
             android:textSize="14sp" />
-        <Button
-            android:id="@+id/buttonTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="40dp"
-            android:backgroundTint="@color/primary_orange"
-            android:drawableEnd="@drawable/outline_login_24_white"
-            android:text="Home"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
     </LinearLayout>
 
 

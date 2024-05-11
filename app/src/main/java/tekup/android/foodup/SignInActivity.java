@@ -26,7 +26,6 @@ public class SignInActivity extends AppCompatActivity {
     private ImageButton imageButtonShowPassword;
     private EditText editTextPassword;
     private Button buttonSignIn;
-    private Button buttonTest;
     private BottomNavigationView bottomNavigationView;
     private boolean isPasswordVisible = false;
     private int cursorPosition = 0;
@@ -40,11 +39,6 @@ public class SignInActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         imageButtonShowPassword = (ImageButton) findViewById(R.id.imageButtonShowPassword);
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
-        buttonTest = (Button) findViewById(R.id.buttonTest);
-        buttonTest.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(intent);
-        });
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.menu_login);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -87,14 +81,14 @@ public class SignInActivity extends AppCompatActivity {
                     .setEmail(editTextEmail.getText().toString())
                     .setPassword(editTextPassword.getText().toString())
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class ,"");
+            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class, "");
             Call<LoginResponse> call = authAPICall.login(loginRequest);
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful()) {
                         LoginResponse responseObject = response.body();
-                        System.out.println("onResponse "+responseObject);
+                        System.out.println("onResponse " + responseObject);
                         if (responseObject != null) {
                             System.out.println("responseObject: " + responseObject);
                             Toast.makeText(SignInActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
@@ -103,6 +97,7 @@ public class SignInActivity extends AppCompatActivity {
                             finish();
                         }
                     } else {
+                        Toast.makeText(SignInActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                         System.out.println("response not succ: " + response);
                     }
                 }

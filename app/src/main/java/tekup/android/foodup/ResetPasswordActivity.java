@@ -6,8 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import tekup.android.foodup.api.ApiClient;
+import tekup.android.foodup.api.interfaces.AuthAPICall;
+import tekup.android.foodup.api.network.RequestResetPasswordRequest;
+import tekup.android.foodup.api.network.RequestResetPasswordResponse;
 
 public class ResetPasswordActivity extends AppCompatActivity {
     private EditText editTextEmail;
@@ -47,14 +56,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
             if (!validateForm()) {
                 return;
             }
-            Intent intent = new Intent(ResetPasswordActivity.this, ResetVerificationCodeActivity.class);
-            intent.putExtra("email", editTextEmail.getText().toString());
-            startActivity(intent);
-            /*
             RequestResetPasswordRequest requestResetPasswordRequest = new RequestResetPasswordRequest.Builder()
                     .setEmail(editTextEmail.getText().toString())
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService("");
+            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class,"");
             Call<RequestResetPasswordResponse> call = authAPICall.requestResetPassword(requestResetPasswordRequest);
             call.enqueue(new Callback<RequestResetPasswordResponse>() {
                 @Override
@@ -78,8 +83,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     System.out.println("Throwable: " + t);
                 }
             });
-
-             */
         });
     }
 

@@ -45,4 +45,7 @@
     <string name="deals">Deals</string>
     <string name="orders">Orders</string>
     <string name="profile">Profile</string>
+
+    <!-- Settings page -->
+    <string name="logout">Logout</string>
 </resources>
