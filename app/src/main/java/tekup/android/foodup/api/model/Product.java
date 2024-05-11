@@ -5,14 +5,14 @@ public class Product {
     private String name;
     private double price;
     private String description;
-    private String imageUrl;
+    private String image;
 
-    public Product(int id, String name, double price, String description, String imageUrl) {
+    public Product(int id, String name, double price, String description, String image) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
-        this.imageUrl = imageUrl;
+        this.image = image;
     }
 
     public int getId() {
@@ -47,11 +47,22 @@ public class Product {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                '}';
     }
 }

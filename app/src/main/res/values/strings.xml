@@ -38,6 +38,11 @@
     <string name="create_account">Create Account</string>
 
     <!-- Home page -->
-    <string name="most_popular">Most Popular</string>
+    <string name="list_categories">List Categories</string>
 
+    <!-- Products page -->
+    <string name="categories">Categories</string>
+    <string name="deals">Deals</string>
+    <string name="orders">Orders</string>
+    <string name="profile">Profile</string>
 </resources>
