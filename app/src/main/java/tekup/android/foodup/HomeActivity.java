@@ -47,6 +47,9 @@ public class HomeActivity extends AppCompatActivity {
             } else if (id == R.id.menu_deals) {
                 return true;
             } else if (id == R.id.menu_orders) {
+                startActivity(new Intent(HomeActivity.this, MyOrdersActivity.class));
+                overridePendingTransition(R.anim.slide_in_right_bottom_menu, R.anim.slide_out_left_bottom_menu);
+                finish();
                 return true;
             } else if (id == R.id.menu_profile) {
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));

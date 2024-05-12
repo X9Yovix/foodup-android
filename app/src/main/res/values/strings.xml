@@ -38,14 +38,18 @@
     <string name="create_account">Create Account</string>
 
     <!-- Home page -->
-    <string name="list_categories">List Categories</string>
+    <string name="categories">Categories</string>
 
     <!-- Products page -->
-    <string name="categories">Categories</string>
     <string name="deals">Deals</string>
     <string name="orders">Orders</string>
     <string name="profile">Profile</string>
 
     <!-- Settings page -->
     <string name="logout">Logout</string>
+
+    <!-- Order page -->
+    <string name="place_order">Place Order</string>
+    <string name="my_orders">My Orders</string>
+    <string name="one">1</string>
 </resources>

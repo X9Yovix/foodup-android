@@ -37,6 +37,9 @@ public class SettingsActivity extends AppCompatActivity {
             } else if (id == R.id.menu_deals) {
                 return true;
             } else if (id == R.id.menu_orders) {
+                startActivity(new Intent(SettingsActivity.this, MyOrdersActivity.class));
+                overridePendingTransition(R.anim.slide_in_left_bottom_menu, R.anim.slide_out_right_bottom_menu);
+                finish();
                 return true;
             } else if (id == R.id.menu_profile) {
                 return true;

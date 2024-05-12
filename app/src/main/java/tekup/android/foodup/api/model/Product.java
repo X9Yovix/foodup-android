@@ -7,6 +7,8 @@ public class Product {
     private String description;
     private String image;
 
+    private int quantity;
+
     public Product(int id, String name, double price, String description, String image) {
         this.id = id;
         this.name = name;
@@ -53,6 +55,14 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     @Override
