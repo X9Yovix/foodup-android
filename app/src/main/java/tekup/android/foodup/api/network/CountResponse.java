@@ -13,4 +13,11 @@ public class CountResponse {
     public void setCount(int count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "CountResponse{" +
+                "count=" + count +
+                '}';
+    }
 }
