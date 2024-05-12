@@ -41,7 +41,7 @@ public class MyOrdersAdapter extends ArrayAdapter<Product> {
             holder.imageViewProduct = listItemView.findViewById(R.id.imageViewProduct);
             holder.incrementButton = listItemView.findViewById(R.id.incrementButton);
             holder.decrementButton = listItemView.findViewById(R.id.decrementButton);
-            holder.productQuantityEditText.setText(String.valueOf(1));
+
             listItemView.setTag(holder);
         } else {
             holder = (ViewHolder) listItemView.getTag();
@@ -50,7 +50,7 @@ public class MyOrdersAdapter extends ArrayAdapter<Product> {
         Product product = getItem(position);
         holder.productNameTextView.setText(product.getName());
         holder.productPriceTextView.setText(String.valueOf(product.getPrice()));
-        holder.productQuantityEditText.setText(String.valueOf(product.getQuantity()));
+        holder.productQuantityEditText.setText(String.valueOf(1));
         Picasso.get().load("http://10.0.2.2:5198/" + product.getImage()).into(holder.imageViewProduct);
 
         holder.incrementButton.setOnClickListener(v -> {
@@ -62,7 +62,8 @@ public class MyOrdersAdapter extends ArrayAdapter<Product> {
 
         holder.decrementButton.setOnClickListener(v -> {
             int quantity = Integer.parseInt(holder.productQuantityEditText.getText().toString());
-            if (quantity > 0) {
+            System.out.println("hadi qty "+ quantity);
+            if (quantity > 1) {
                 quantity--;
                 holder.productQuantityEditText.setText(String.valueOf(quantity));
                 product.setQuantity(quantity);
