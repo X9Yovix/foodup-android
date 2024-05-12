@@ -2,8 +2,10 @@ package tekup.android.foodup.api.interfaces;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import tekup.android.foodup.api.network.CountResponse;
 import tekup.android.foodup.api.network.LoginRequest;
 import tekup.android.foodup.api.network.LoginResponse;
 import tekup.android.foodup.api.network.RegisterRequest;
@@ -30,4 +32,7 @@ public interface AuthAPICall {
 
     @PUT("users/reset-password/apply")
     Call<ApplyResetPasswordResponse> applyResetPassword(@Body ApplyResetPasswordRequest applyResetPasswordRequest);
+
+    @GET("users/dashboard/count")
+    Call<CountResponse> countUsers();
 }

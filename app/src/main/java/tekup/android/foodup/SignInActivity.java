@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.auth0.android.jwt.JWT;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
@@ -88,23 +89,30 @@ public class SignInActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful()) {
                         LoginResponse responseObject = response.body();
-                        System.out.println("onResponse " + responseObject);
                         if (responseObject != null) {
-                            System.out.println("responseObject: " + responseObject);
-                            Toast.makeText(SignInActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
-                            JwtManager.saveJwtToken(SignInActivity.this, responseObject.getToken());
-                            startActivity(new Intent(SignInActivity.this, HomeActivity.class));
+                            String token = responseObject.getToken();
+                            JWT jwt = new JWT(token);
+                            String roleUser = jwt.getClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role").asString();
+
+                            if ("admin".equals(roleUser)) {
+                                Toast.makeText(SignInActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
+                                JwtManager.saveJwtToken(SignInActivity.this, responseObject.getToken());
+                                startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
+                            } else {
+                                Toast.makeText(SignInActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
+                                JwtManager.saveJwtToken(SignInActivity.this, responseObject.getToken());
+                                startActivity(new Intent(SignInActivity.this, HomeActivity.class));
+                            }
                             finish();
                         }
                     } else {
                         Toast.makeText(SignInActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
-                        System.out.println("response not succ: " + response);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    System.out.println("Throwable: " + t);
+                    Toast.makeText(SignInActivity.this, "Login failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         });
