@@ -5,8 +5,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +29,8 @@ public class DashboardActivity extends AppCompatActivity {
     private TextView ordersTextView;
     private TextView usersTextView;
     private Button logoutButton;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +41,11 @@ public class DashboardActivity extends AppCompatActivity {
         ordersTextView = (TextView) findViewById(R.id.ordersTextView);
         usersTextView = (TextView) findViewById(R.id.usersTextView);
         logoutButton = (Button) findViewById(R.id.logoutButton);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        fetchProductsCount();
-        fetchCategoriesCount();
-        fetchOrdersCount();
-        fetchUsersCount();
+        progressBar.setVisibility(View.VISIBLE);
+
+        fetchCountsAndLoadActivity();
 
         logoutButton.setOnClickListener(v -> {
             JwtManager.logout(getApplicationContext());
@@ -48,7 +54,22 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchProductsCount() {
+    private void fetchCountsAndLoadActivity() {
+        int totalCalls = 4;
+        AtomicInteger completedCalls = new AtomicInteger(0);
+
+        fetchProductsCount(completedCalls, totalCalls);
+        fetchCategoriesCount(completedCalls, totalCalls);
+        fetchOrdersCount(completedCalls, totalCalls);
+        fetchUsersCount(completedCalls, totalCalls);
+    }
+    private void checkAllCallsCompleted(int completedCalls, int totalCalls) {
+        if (completedCalls == totalCalls) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private void fetchProductsCount(AtomicInteger completedCalls, int totalCalls) {
         String jwtToken = JwtManager.getJwtToken(this);
         ProductsAPICall productService = ApiClient.getApiService(ProductsAPICall.class, jwtToken);
         Call<CountResponse> call = productService.countProducts();
@@ -57,20 +78,24 @@ public class DashboardActivity extends AppCompatActivity {
             public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
                 if (response.isSuccessful()) {
                     CountResponse productsCount = response.body();
-                    productsTextView.setText(String.valueOf(productsCount.getCount())+ " Products");
+                    productsTextView.setText(String.valueOf(productsCount.getCount()) + " Products");
                 } else {
                     productsTextView.setText("N/A");
                 }
+                completedCalls.incrementAndGet();
+                checkAllCallsCompleted(completedCalls.get(), totalCalls);
             }
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
                 productsTextView.setText("Error");
+                completedCalls.incrementAndGet();
+                checkAllCallsCompleted(completedCalls.get(), totalCalls);
             }
         });
     }
 
-    private void fetchOrdersCount() {
+    private void fetchOrdersCount(AtomicInteger completedCalls, int totalCalls) {
         String jwtToken = JwtManager.getJwtToken(this);
         OrdersAPICall orderService = ApiClient.getApiService(OrdersAPICall.class, jwtToken);
         Call<CountResponse> call = orderService.countOrders();
@@ -83,16 +108,20 @@ public class DashboardActivity extends AppCompatActivity {
                 } else {
                     ordersTextView.setText("N/A");
                 }
+                completedCalls.incrementAndGet();
+                checkAllCallsCompleted(completedCalls.get(), totalCalls);
             }
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
                 ordersTextView.setText("Error");
+                completedCalls.incrementAndGet();
+                checkAllCallsCompleted(completedCalls.get(), totalCalls);
             }
         });
     }
 
-    private void fetchCategoriesCount() {
+    private void fetchCategoriesCount(AtomicInteger completedCalls, int totalCalls) {
         String jwtToken = JwtManager.getJwtToken(this);
         CategoriesAPICall categoryService = ApiClient.getApiService(CategoriesAPICall.class, jwtToken);
         Call<CountResponse> call = categoryService.countCategories();
@@ -105,16 +134,20 @@ public class DashboardActivity extends AppCompatActivity {
                 } else {
                     categoriesTextView.setText("N/A");
                 }
+                completedCalls.incrementAndGet();
+                checkAllCallsCompleted(completedCalls.get(), totalCalls);
             }
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
                 categoriesTextView.setText("Error");
+                completedCalls.incrementAndGet();
+                checkAllCallsCompleted(completedCalls.get(), totalCalls);
             }
         });
     }
 
-    private void fetchUsersCount() {
+    private void fetchUsersCount(AtomicInteger completedCalls, int totalCalls) {
         String jwtToken = JwtManager.getJwtToken(this);
         AuthAPICall userService = ApiClient.getApiService(AuthAPICall.class, jwtToken);
         Call<CountResponse> call = userService.countUsers();
@@ -127,11 +160,15 @@ public class DashboardActivity extends AppCompatActivity {
                 } else {
                     usersTextView.setText("N/A");
                 }
+                completedCalls.incrementAndGet();
+                checkAllCallsCompleted(completedCalls.get(), totalCalls);
             }
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
                 usersTextView.setText("Error");
+                completedCalls.incrementAndGet();
+                checkAllCallsCompleted(completedCalls.get(), totalCalls);
             }
         });
     }
