@@ -1,9 +1,9 @@
 package tekup.android.foodup.api.network;
 
-public class ResetPasswordVerificationCodeResponse {
+public class ResetPasswordResponse {
     private String message;
 
-    public ResetPasswordVerificationCodeResponse(String message) {
+    public ResetPasswordResponse(String message) {
         this.message = message;
     }
 

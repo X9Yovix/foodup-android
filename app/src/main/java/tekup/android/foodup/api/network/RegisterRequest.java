@@ -5,6 +5,7 @@ public class RegisterRequest {
     private String lastName;
     private String email;
     private String password;
+    private String passwordConfirmation;
     private String gender;
 
     private RegisterRequest(Builder builder) {
@@ -12,6 +13,7 @@ public class RegisterRequest {
         this.lastName = builder.lastName;
         this.email = builder.email;
         this.password = builder.password;
+        this.passwordConfirmation = builder.passwordConfirmation;
         this.gender = builder.gender;
     }
 
@@ -31,6 +33,14 @@ public class RegisterRequest {
         return gender;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
     @Override
     public String toString() {
         return "RegisterRequest{" +
@@ -47,6 +57,7 @@ public class RegisterRequest {
         private String lastName;
         private String email;
         private String password;
+        private String passwordConfirmation;
         private String gender;
 
         public Builder setFirstName(String firstName) {
@@ -66,6 +77,11 @@ public class RegisterRequest {
 
         public Builder setPassword(String password) {
             this.password = password;
+            return this;
+        }
+
+        public Builder setPasswordConfirmation(String passwordConfirmation) {
+            this.passwordConfirmation = passwordConfirmation;
             return this;
         }
 

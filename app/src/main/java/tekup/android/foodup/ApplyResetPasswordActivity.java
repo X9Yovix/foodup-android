@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,12 +24,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tekup.android.foodup.api.ApiClient;
 import tekup.android.foodup.api.interfaces.AuthAPICall;
-import tekup.android.foodup.api.network.ResetPasswordUpdateRequest;
-import tekup.android.foodup.api.network.ResetPasswordUpdateResponse;
-import tekup.android.foodup.api.network.ResetPasswordVerificationCodeRequest;
-import tekup.android.foodup.api.network.ResetPasswordVerificationCodeResponse;
+import tekup.android.foodup.api.network.ApplyResetPasswordRequest;
+import tekup.android.foodup.api.network.ApplyResetPasswordResponse;
 
-public class ResetVerificationCodeActivity extends AppCompatActivity {
+public class ApplyResetPasswordActivity extends AppCompatActivity {
     private EditText editTextCode1;
     private EditText editTextCode2;
     private EditText editTextCode3;
@@ -49,7 +48,7 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset_verification_code);
+        setContentView(R.layout.activity_apply_reset_password);
 
         containerChangePassword = (LinearLayout) findViewById(R.id.containerChangePassword);
         containerOtpCode = (LinearLayout) findViewById(R.id.containerOtpCode);
@@ -67,6 +66,8 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
 
         buttonValidate = (Button) findViewById(R.id.buttonValidate);
         buttonReset = (Button) findViewById(R.id.buttonReset);
+
+        editTextEmail.setText(getIntent().getStringExtra("email"));
 
         editTextCode1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -141,13 +142,13 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
                     String clipboardText = item.getText().toString().trim();
                     if (isValidCode(clipboardText)) {
                         String[] codeParts = clipboardText.split("(?!^)");
-                        //if (codeParts.length == 5) {
+                        if (codeParts.length == 5) {
                             editTextCode1.setText(codeParts[0]);
                             editTextCode2.setText(codeParts[1]);
                             editTextCode3.setText(codeParts[2]);
                             editTextCode4.setText(codeParts[3]);
                             editTextCode5.setText(codeParts[4]);
-                        //}
+                        }
                     }
                 }
             }
@@ -156,86 +157,15 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
 
 
         buttonValidate.setOnClickListener(v -> {
-
-            String otpCode = editTextCode1.getText().toString()
-                    + editTextCode2.getText().toString()
-                    + editTextCode3.getText().toString()
-                    + editTextCode4.getText().toString()
-                    + editTextCode5.getText().toString();
-
-            editTextCode1.setEnabled(false);
-            editTextCode2.setEnabled(false);
-            editTextCode3.setEnabled(false);
-            editTextCode4.setEnabled(false);
-            editTextCode5.setEnabled(false);
-            /*
-            String emailIntent = getIntent().getStringExtra("email");
-            editTextEmail.setText(emailIntent);
-
-            Animation fadeOutAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.button_validate);
+            Animation fadeOutAnimation = AnimationUtils.loadAnimation(ApplyResetPasswordActivity.this, R.anim.button_validate);
             buttonValidate.startAnimation(fadeOutAnimation);
             buttonValidate.setVisibility(View.GONE);
 
-            Animation slideUpFromBottomAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.otp_container);
+            Animation slideUpFromBottomAnimation = AnimationUtils.loadAnimation(ApplyResetPasswordActivity.this, R.anim.otp_container);
             containerOtpCode.startAnimation(slideUpFromBottomAnimation);
             containerChangePassword.setVisibility(View.VISIBLE);
-            Animation slideUpAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.change_pass_container);
+            Animation slideUpAnimation = AnimationUtils.loadAnimation(ApplyResetPasswordActivity.this, R.anim.change_pass_container);
             containerChangePassword.startAnimation(slideUpAnimation);
-
-             */
-
-            ResetPasswordVerificationCodeRequest resetPasswordVerificationCodeRequest = new ResetPasswordVerificationCodeRequest.Builder()
-                    .setOtp(otpCode)
-                    .build();
-            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class,"");
-            Call<ResetPasswordVerificationCodeResponse> call = authAPICall.verifyOtp(resetPasswordVerificationCodeRequest);
-            call.enqueue(new Callback<ResetPasswordVerificationCodeResponse>() {
-                @Override
-                public void onResponse(Call<ResetPasswordVerificationCodeResponse> call, Response<ResetPasswordVerificationCodeResponse> response) {
-                    if (response.isSuccessful()) {
-                        ResetPasswordVerificationCodeResponse responseObject = response.body();
-                        if (responseObject != null) {
-                            System.out.println("responseObject: " + responseObject);
-
-                            Toast.makeText(ResetVerificationCodeActivity.this, "done", Toast.LENGTH_LONG).show();
-
-                            String emailIntent = getIntent().getStringExtra("email");
-                            editTextEmail.setText(emailIntent);
-
-                            Animation fadeOutAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.button_validate);
-                            buttonValidate.startAnimation(fadeOutAnimation);
-                            buttonValidate.setVisibility(View.GONE);
-
-                            Animation slideUpFromBottomAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.otp_container);
-                            containerOtpCode.startAnimation(slideUpFromBottomAnimation);
-                            containerChangePassword.setVisibility(View.VISIBLE);
-                            Animation slideUpAnimation = AnimationUtils.loadAnimation(ResetVerificationCodeActivity.this, R.anim.change_pass_container);
-                            containerChangePassword.startAnimation(slideUpAnimation);
-                        }
-                    } else {
-                        System.out.println("response not succ: " + response);
-                        editTextCode1.setEnabled(true);
-                        editTextCode2.setEnabled(true);
-                        editTextCode3.setEnabled(true);
-                        editTextCode4.setEnabled(true);
-                        editTextCode5.setEnabled(true);
-                        containerChangePassword.setVisibility(View.GONE);
-                        buttonValidate.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResetPasswordVerificationCodeResponse> call, Throwable t) {
-                    System.out.println("Throwable: " + t);
-                    editTextCode1.setEnabled(true);
-                    editTextCode2.setEnabled(true);
-                    editTextCode3.setEnabled(true);
-                    editTextCode4.setEnabled(true);
-                    editTextCode5.setEnabled(true);
-                    containerChangePassword.setVisibility(View.GONE);
-                    buttonValidate.setVisibility(View.VISIBLE);
-                }
-            });
 
         });
 
@@ -269,50 +199,48 @@ public class ResetVerificationCodeActivity extends AppCompatActivity {
             if (!validateForm()) {
                 return;
             }
-            String email = editTextEmail.getText().toString();
+
             String otpCode = editTextCode1.getText().toString()
                     + editTextCode2.getText().toString()
                     + editTextCode3.getText().toString()
                     + editTextCode4.getText().toString()
                     + editTextCode5.getText().toString();
+
+            String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
             String passwordConfirmation = editTextPasswordConfirmation.getText().toString();
 
-            if (!email.isEmpty() && !otpCode.isEmpty() && !password.isEmpty() && !passwordConfirmation.isEmpty()) {
-                if (password.equals(passwordConfirmation)) {
-                    Toast.makeText(ResetVerificationCodeActivity.this, "done", Toast.LENGTH_SHORT).show();
-
-                    ResetPasswordUpdateRequest resetPasswordUpdateRequest = new ResetPasswordUpdateRequest.Builder()
-                            .setOtp(otpCode)
-                            .setEmail(email)
-                            .setPassword(password)
-                            .build();
-                    AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class,"");
-                    Call<ResetPasswordUpdateResponse> call = authAPICall.updatePassword(resetPasswordUpdateRequest);
-                    call.enqueue(new Callback<ResetPasswordUpdateResponse>() {
-                        @Override
-                        public void onResponse(Call<ResetPasswordUpdateResponse> call, Response<ResetPasswordUpdateResponse> response) {
-                            if (response.isSuccessful()) {
-                                ResetPasswordUpdateResponse responseObject = response.body();
-                                if (responseObject != null) {
-                                    System.out.println("responseObject: " + responseObject);
-                                    Toast.makeText(ResetVerificationCodeActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                System.out.println("response not succ: " + response);
-                            }
+            ApplyResetPasswordRequest applyResetPasswordRequest = new ApplyResetPasswordRequest.Builder()
+                    .setOtp(otpCode)
+                    .setEmail(email)
+                    .setPassword(password)
+                    .setPasswordConfirmation(passwordConfirmation)
+                    .build();
+            System.out.println(applyResetPasswordRequest);
+            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class, "");
+            Call<ApplyResetPasswordResponse> call = authAPICall.applyResetPassword(applyResetPasswordRequest);
+            call.enqueue(new Callback<ApplyResetPasswordResponse>() {
+                @Override
+                public void onResponse(Call<ApplyResetPasswordResponse> call, Response<ApplyResetPasswordResponse> response) {
+                    if (response.isSuccessful()) {
+                        ApplyResetPasswordResponse responseObject = response.body();
+                        if (responseObject != null) {
+                            System.out.println("responseObject: " + responseObject);
+                            Toast.makeText(ApplyResetPasswordActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(ApplyResetPasswordActivity.this, SignInActivity.class));
                         }
-
-                        @Override
-                        public void onFailure(Call<ResetPasswordUpdateResponse> call, Throwable t) {
-                            System.out.println("Throwable: " + t);
-                        }
-                    });
-
-                } else {
-                    Toast.makeText(ResetVerificationCodeActivity.this, "Verify entered password confirmation", Toast.LENGTH_SHORT).show();
+                    } else {
+                        System.out.println("response not succ: " + response);
+                    }
                 }
-            }
+
+                @Override
+                public void onFailure(Call<ApplyResetPasswordResponse> call, Throwable t) {
+                    System.out.println("Throwable: " + t);
+                }
+            });
+
+
         });
 
     }

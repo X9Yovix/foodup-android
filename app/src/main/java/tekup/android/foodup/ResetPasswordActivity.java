@@ -15,8 +15,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tekup.android.foodup.api.ApiClient;
 import tekup.android.foodup.api.interfaces.AuthAPICall;
-import tekup.android.foodup.api.network.RequestResetPasswordRequest;
-import tekup.android.foodup.api.network.RequestResetPasswordResponse;
+import tekup.android.foodup.api.network.ResetPasswordRequest;
+import tekup.android.foodup.api.network.ResetPasswordResponse;
 
 public class ResetPasswordActivity extends AppCompatActivity {
     private EditText editTextEmail;
@@ -56,20 +56,20 @@ public class ResetPasswordActivity extends AppCompatActivity {
             if (!validateForm()) {
                 return;
             }
-            RequestResetPasswordRequest requestResetPasswordRequest = new RequestResetPasswordRequest.Builder()
+            ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest.Builder()
                     .setEmail(editTextEmail.getText().toString())
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class,"");
-            Call<RequestResetPasswordResponse> call = authAPICall.requestResetPassword(requestResetPasswordRequest);
-            call.enqueue(new Callback<RequestResetPasswordResponse>() {
+            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class, "");
+            Call<ResetPasswordResponse> call = authAPICall.resetPassword(resetPasswordRequest);
+            call.enqueue(new Callback<ResetPasswordResponse>() {
                 @Override
-                public void onResponse(Call<RequestResetPasswordResponse> call, Response<RequestResetPasswordResponse> response) {
+                public void onResponse(Call<ResetPasswordResponse> call, Response<ResetPasswordResponse> response) {
                     if (response.isSuccessful()) {
-                        RequestResetPasswordResponse responseObject = response.body();
+                        ResetPasswordResponse responseObject = response.body();
                         if (responseObject != null) {
                             System.out.println("responseObject: " + responseObject);
-                            Toast.makeText(ResetPasswordActivity.this, "done", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(ResetPasswordActivity.this, ResetVerificationCodeActivity.class);
+                            Toast.makeText(ResetPasswordActivity.this, responseObject.getMessage(), Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(ResetPasswordActivity.this, ApplyResetPasswordActivity.class);
                             intent.putExtra("email", editTextEmail.getText().toString());
                             startActivity(intent);
                         }
@@ -79,7 +79,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<RequestResetPasswordResponse> call, Throwable t) {
+                public void onFailure(Call<ResetPasswordResponse> call, Throwable t) {
                     System.out.println("Throwable: " + t);
                 }
             });

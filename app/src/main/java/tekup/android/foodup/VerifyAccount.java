@@ -5,18 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import tekup.android.foodup.api.ApiClient;
+import tekup.android.foodup.api.interfaces.AuthAPICall;
+import tekup.android.foodup.api.network.VerifyOtpRequest;
+import tekup.android.foodup.api.network.VerifyOtpResponse;
+
 public class VerifyAccount extends AppCompatActivity {
+    private EditText verifyEmailEditText;
     private EditText editTextCode1;
     private EditText editTextCode2;
     private EditText editTextCode3;
@@ -28,13 +34,15 @@ public class VerifyAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_account);
+        verifyEmailEditText = (EditText) findViewById(R.id.verifyEmailEditText);
         editTextCode1 = (EditText) findViewById(R.id.editTextCode1);
         editTextCode2 = (EditText) findViewById(R.id.editTextCode2);
         editTextCode3 = (EditText) findViewById(R.id.editTextCode3);
         editTextCode4 = (EditText) findViewById(R.id.editTextCode4);
         editTextCode5 = (EditText) findViewById(R.id.editTextCode5);
-
         buttonValidate = (Button) findViewById(R.id.buttonValidate);
+
+        verifyEmailEditText.setText(getIntent().getStringExtra("verifyEmail"));
 
         editTextCode1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,13 +117,13 @@ public class VerifyAccount extends AppCompatActivity {
                     String clipboardText = item.getText().toString().trim();
                     if (isValidCode(clipboardText)) {
                         String[] codeParts = clipboardText.split("(?!^)");
-                        //if (codeParts.length == 5) {
-                        editTextCode1.setText(codeParts[0]);
-                        editTextCode2.setText(codeParts[1]);
-                        editTextCode3.setText(codeParts[2]);
-                        editTextCode4.setText(codeParts[3]);
-                        editTextCode5.setText(codeParts[4]);
-                        //}
+                        if (codeParts.length == 5) {
+                            editTextCode1.setText(codeParts[0]);
+                            editTextCode2.setText(codeParts[1]);
+                            editTextCode3.setText(codeParts[2]);
+                            editTextCode4.setText(codeParts[3]);
+                            editTextCode5.setText(codeParts[4]);
+                        }
                     }
                 }
             }
@@ -136,10 +144,33 @@ public class VerifyAccount extends AppCompatActivity {
             editTextCode3.setEnabled(false);
             editTextCode4.setEnabled(false);
             editTextCode5.setEnabled(false);
-            Toast.makeText(this, otpCode, Toast.LENGTH_SHORT).show();
 
+            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class, "");
+            VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest(verifyEmailEditText.getText().toString(), otpCode);
+            Call<VerifyOtpResponse> call = authAPICall.verifyOtp(verifyOtpRequest);
+            call.enqueue(new Callback<VerifyOtpResponse>() {
+                @Override
+                public void onResponse(Call<VerifyOtpResponse> call, Response<VerifyOtpResponse> response) {
+                    if (response.isSuccessful()) {
+                        VerifyOtpResponse responseObject = response.body();
+                        if (responseObject != null) {
+                            System.out.println("responseObject: " + responseObject.getMessage());
+                            Toast.makeText(VerifyAccount.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(VerifyAccount.this, SignInActivity.class));
+                        }
+                    } else {
+                        System.out.println("response not succ: " + response);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<VerifyOtpResponse> call, Throwable t) {
+                    System.out.println("Throwable: " + t);
+                }
+            });
         });
     }
+
     private boolean isValidCode(String code) {
         return code.matches("[a-zA-Z0-9]{5}");
     }

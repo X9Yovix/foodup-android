@@ -1,9 +1,9 @@
 package tekup.android.foodup.api.network;
 
-public class RequestResetPasswordRequest {
+public class ResetPasswordRequest {
     private String email;
 
-    private RequestResetPasswordRequest(RequestResetPasswordRequest.Builder builder) {
+    private ResetPasswordRequest(ResetPasswordRequest.Builder builder) {
         this.email = builder.email;
     }
 
@@ -14,13 +14,13 @@ public class RequestResetPasswordRequest {
     public static class Builder {
         private String email;
 
-        public RequestResetPasswordRequest.Builder setEmail(String email) {
+        public ResetPasswordRequest.Builder setEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public RequestResetPasswordRequest build() {
-            return new RequestResetPasswordRequest(this);
+        public ResetPasswordRequest build() {
+            return new ResetPasswordRequest(this);
         }
     }
 }

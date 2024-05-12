@@ -105,6 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
             String lastName = editTextLastName.getText().toString();
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
+            String passwordConfirmation = editTextPasswordConfirmation.getText().toString();
             boolean isFemale = switchCompatGender.isChecked();
             String gender = isFemale ? "Female" : "Male";
             RegisterRequest registerRequest = new RegisterRequest.Builder()
@@ -112,9 +113,10 @@ public class SignUpActivity extends AppCompatActivity {
                     .setLastName(lastName)
                     .setEmail(email)
                     .setPassword(password)
+                    .setPasswordConfirmation(passwordConfirmation)
                     .setGender(gender)
                     .build();
-            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class,"");
+            AuthAPICall authAPICall = ApiClient.getApiService(AuthAPICall.class, "");
             Call<RegisterResponse> call = authAPICall.register(registerRequest);
             call.enqueue(new Callback<RegisterResponse>() {
                 @Override
@@ -123,7 +125,10 @@ public class SignUpActivity extends AppCompatActivity {
                         RegisterResponse responseObject = response.body();
                         if (responseObject != null) {
                             System.out.println("responseObject: " + responseObject.getMessage());
-                            Toast.makeText(SignUpActivity.this, responseObject.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, responseObject.getMessage(), Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(SignUpActivity.this, VerifyAccount.class);
+                            intent.putExtra("verifyEmail", email);
+                            startActivity(intent);
                         }
                     } else {
                         System.out.println("response not succ: " + response);

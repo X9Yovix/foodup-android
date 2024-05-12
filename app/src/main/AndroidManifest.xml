@@ -32,7 +32,7 @@
             android:name=".VerifyAccount"
             android:exported="false" />
         <activity
-            android:name=".ResetVerificationCodeActivity"
+            android:name=".ApplyResetPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".ResetPasswordActivity"
