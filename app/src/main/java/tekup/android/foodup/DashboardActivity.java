@@ -57,7 +57,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
                 if (response.isSuccessful()) {
                     CountResponse productsCount = response.body();
-                    productsTextView.setText(String.valueOf(productsCount.getCount()));
+                    productsTextView.setText(String.valueOf(productsCount.getCount())+ " Products");
                 } else {
                     productsTextView.setText("N/A");
                 }
@@ -79,7 +79,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
                 if (response.isSuccessful()) {
                     CountResponse ordersCount = response.body();
-                    ordersTextView.setText(String.valueOf(ordersCount.getCount()));
+                    ordersTextView.setText(String.valueOf(ordersCount.getCount())+ " Orders");
                 } else {
                     ordersTextView.setText("N/A");
                 }
@@ -101,7 +101,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
                 if (response.isSuccessful()) {
                     CountResponse categoriesCount = response.body();
-                    categoriesTextView.setText(String.valueOf(categoriesCount.getCount()));
+                    categoriesTextView.setText(String.valueOf(categoriesCount.getCount()) + " Categories");
                 } else {
                     categoriesTextView.setText("N/A");
                 }
@@ -123,7 +123,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
                 if (response.isSuccessful()) {
                     CountResponse usersCount = response.body();
-                    usersTextView.setText(String.valueOf(usersCount.getCount()));
+                    usersTextView.setText(String.valueOf(usersCount.getCount()) + " Users");
                 } else {
                     usersTextView.setText("N/A");
                 }
