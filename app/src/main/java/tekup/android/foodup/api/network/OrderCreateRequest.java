@@ -14,4 +14,11 @@ public class OrderCreateRequest {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
+
+    @Override
+    public String toString() {
+        return "OrderCreateRequest{" +
+                "orderItems=" + orderItems +
+                '}';
+    }
 }

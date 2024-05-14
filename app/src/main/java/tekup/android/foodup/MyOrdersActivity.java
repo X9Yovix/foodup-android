@@ -75,19 +75,28 @@ public class MyOrdersActivity extends AppCompatActivity {
         fetchProductsById(productIds);
         placeOrderButton.setOnClickListener(v -> {
             isLoading = true;
-            List<Product> productList = new ArrayList<>();
+
+            //List<Product> productList = new ArrayList<>();
+            List<OrderItem> orderItems = new ArrayList<>();
             for (int i = 0; i < ordersAdapter.getCount(); i++) {
-                productList.add(ordersAdapter.getItem(i));
+                //productList.add(ordersAdapter.getItem(i));
+                OrderItem orderItem = new OrderItem(ordersAdapter.getItem(i).getId(),ordersAdapter.getItem(i).getQuantity());
+                orderItems.add(orderItem);
             }
 
+
+
             OrderCreateRequest orderCreateRequest = new OrderCreateRequest();
+            /*
             List<OrderItem> orderItems = new ArrayList<>();
             for (Product product : productList) {
                 OrderItem orderItem = new OrderItem(product.getId(),product.getQuantity());
                 orderItems.add(orderItem);
             }
-            orderCreateRequest.setOrderItems(orderItems);
+                */
 
+            orderCreateRequest.setOrderItems(orderItems);
+            System.out.println(orderCreateRequest);
             String jwtToken = JwtManager.getJwtToken(this);
             OrdersAPICall ordersAPICall = ApiClient.getApiService(OrdersAPICall.class, jwtToken);
             Call<OrderCreateResponse> call = ordersAPICall.saveOrder(orderCreateRequest);
